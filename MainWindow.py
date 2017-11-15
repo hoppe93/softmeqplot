@@ -96,7 +96,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.tbName.setText(self.meqplot.name)
         self.ui.tbDescription.setPlainText(self.meqplot.description)
-        self.ui.lblMaxis.setText('('+str(self.meqplot.maxis[0])+', '+str(self.meqplot.maxis[1])+')')
+        self.ui.lblMaxis.setText('(%.3f, %.3f)' % (self.meqplot.maxis[0], self.meqplot.maxis[1]))
 
         # Calculate flux surfaces for future use
         self.meqplot.calculateFluxSurfaces()
