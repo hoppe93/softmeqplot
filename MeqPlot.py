@@ -162,6 +162,7 @@ class MeqPlot:
         self.flux = flux
 
     def evaluateB(self, r, z):
+        """
         fBr = scipy.interpolate.interp2d(self._meshR, self._meshZ, self.B[0], kind='linear')
         fBphi = scipy.interpolate.interp2d(self._meshR, self._meshZ, self.B[1], kind='linear')
         fBz = scipy.interpolate.interp2d(self._meshR, self._meshZ, self.B[2], kind='linear')
@@ -169,6 +170,17 @@ class MeqPlot:
         Br = fBr(r, z)[0]
         Bphi = fBphi(r, z)[0]
         Bz = fBz(r, z)[0]
+        """
+        R = self._meshR.reshape((self._meshR.size,))
+        Z = self._meshZ.reshape((self._meshZ.size,))
+
+        rBr = self.B[0].reshape((self.B[0].size,))
+        rBphi=self.B[1].reshape((self.B[1].size,))
+        rBz = self.B[2].reshape((self.B[2].size,))
+
+        Br = scipy.interpolate.griddata((R,Z), rBr, ([r],[z]), method='linear')
+        Bphi=scipy.interpolate.griddata((R,Z),rBphi,([r],[z]), method='linear')
+        Bz = scipy.interpolate.griddata((R,Z), rBz, ([r],[z]), method='linear')
 
         B = np.sqrt(Br**2 + Bphi**2 + Bz**2)
         return Br, Bphi, Bz, B

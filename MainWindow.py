@@ -107,6 +107,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.dsbRadius.setRange(r0, rmax)
         self.ui.dsbRadius.setValue(r0+(rmax-r0)*0.6)
 
+        # Calculate magnetic field at axis
+        self.evalBAt(self.meqplot.maxis[0], self.meqplot.maxis[1])
+
     def openFile(self):
         filename, _ = QFileDialog.getOpenFileName(parent=self, caption="Open SOFT Magnetic Equilibrium file", filter="SOFT Magnetic Equilibrium (*.mat);;All files (*.*)")
 
@@ -172,12 +175,16 @@ class MainWindow(QtWidgets.QMainWindow):
             msg.setStandardButtons(QMessageBox.Ok)
             msg.exec_()
 
-    def pointSelected(self, event):
-        R = event.xdata
-        Z = event.ydata
-        
+    def evalBAt(self, R, Z):
         Br, Bphi, Bz, B = self.meqplot.evaluateB(R, Z)
     
         self.ui.lblSampledB.setText("(%.3f, %.3f) m" % (R,Z))
         self.ui.lblBStrength.setText("%.3f T" % B)
         self.ui.lblBComp.setText("(%.3f, %.3f, %.3f) T" % (Br, Bphi, Bz))
+
+    def pointSelected(self, event):
+        R = event.xdata
+        Z = event.ydata
+
+        self.evalBAt(R, Z)
+
