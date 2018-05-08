@@ -8,6 +8,7 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io
+import scipy.interpolate
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.gridspec as gridspec
 import matplotlib.ticker
@@ -203,8 +204,10 @@ class MeqPlot:
                 self.maxis = matfile['maxis'][0,:]
                 self.name = matfile['name'][0]
                 R = matfile['r'][0,:]
-                self.separatrix = matfile['separatrix']
-                self.wall = matfile['wall']
+                if 'separatrix' in matfile.keys():
+                    self.separatrix = matfile['separatrix']
+                if 'wall' in matfile.keys():
+                    self.wall = matfile['wall']
                 Z = matfile['z'][0,:]
 
                 self._inputIsHDF5 = False
@@ -216,8 +219,10 @@ class MeqPlot:
                 self.maxis = matfile['maxis'][0,:]
                 self.name = matfile['name'][0]
                 R = matfile['r'][0,:]
-                self.separatrix = matfile['separatrix'][:,:]
-                self.wall = matfile['wall'][:,:]
+                if 'separatrix' in matfile.keys():
+                    self.separatrix = matfile['separatrix'][:,:]
+                if 'wall' in matfile.keys():
+                    self.wall = matfile['wall'][:,:]
                 Z = matfile['z'][0,:]
 
                 self._inputIsHDF5 = True
@@ -229,8 +234,10 @@ class MeqPlot:
             self.maxis = matfile['maxis'][0,:]
             self.name = matfile['name']
             R = matfile['r'][0,:]
-            self.separatrix = matfile['separatrix'][0,:]
-            self.wall = matfile['wall'][0,:]
+            if 'separatrix' in matfile.keys():
+                self.separatrix = matfile['separatrix'][0,:]
+            if 'wall' in matfile.keys():
+                self.wall = matfile['wall'][0,:]
             Z = matfile['z'][0,:]
 
             self._inputIsHDF5 = True

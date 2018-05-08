@@ -81,6 +81,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.meqfileUpdated()
 
+        if not self.meqplot.hasSeparatrix():
+            self.ui.cbSeparatrix.setChecked(False)
+            self.ui.cbSeparatrix.setEnabled(False)
+
         # Enable things to plot
         self.cbPlotChanged()
 
